@@ -2,6 +2,7 @@
 import datetime
 
 from commons.helper.db_manager import DBManager
+from core import db
 from data.models.proj.proj import Proj
 
 
@@ -21,3 +22,7 @@ class ProjManager(DBManager):
     def get_proj_by_ids(self, proj_ids):
         expressions = [self.model.id.in_(proj_ids)]
         return self.query(expressions=expressions)
+
+    def get_proj_ids_by_org(self, org_id):
+        ids = db.session.query(self.model.id).filter_by(org_id=org_id).all()
+        return [item[0] for item in ids]

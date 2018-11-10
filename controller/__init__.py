@@ -11,6 +11,7 @@ import cms
 import capp
 import framework
 from data import dao
+from data import sampler
 
 
 @app.route('/health')
@@ -41,6 +42,16 @@ def data_query():
         if query.startswith('list'):
             result = dao.list(options['module'], query, options['attrs'], filters)
         return jsonify(status='ok', data=result)
+    except Exception, ex:
+        traceback.print_exc()
+        return jsonify(status='error', msg=ex.message)
+
+
+@app.route("/data/sample", methods=['GET'])
+def data_sample():
+    try:
+        sampler.sample_all()
+        return jsonify(status='ok')
     except Exception, ex:
         traceback.print_exc()
         return jsonify(status='error', msg=ex.message)

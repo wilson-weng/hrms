@@ -18,7 +18,7 @@ class PicManager(DBManager):
     def get_last_sequence_by_type(self, bus_type, bus_id, img_type):
         filter_conditions = {'bus_type': bus_type, 'bus_id': bus_id, 'img_type': img_type, 'is_del': 0}
         last_pic = self.query_first(filter_conditions=filter_conditions, order_list=[self.model.sequence.desc()])
-        return last_pic.sequence
+        return last_pic.sequence if last_pic else 1
 
     def get_img_by_type(self, bus_type, bus_id, img_type):
         filter_conditions = {'bus_type': bus_type, 'bus_id': bus_id, 'img_type': img_type, 'is_del': 0}

@@ -4,12 +4,16 @@ from proj_dao import ProjDao
 from fine_dao import FineDao
 from crew_dao import CrewDao
 from wage_dao import WageDao
+from supplier_dao import SupplierDao
+from dataset_dao import DatasetDao
 
 dao_map = {
     'proj': ProjDao(),
     'fine': FineDao(),
     'crew': CrewDao(),
     'wage': WageDao(),
+    'supplier': SupplierDao(),
+    'dataset': DatasetDao()
 }
 
 attrs = DaoRelationMapMgr.query({'is_del': 0})
@@ -45,7 +49,7 @@ def list(module, getter, attrs, filters):
     for data in result['datas']:
         for item in attrs:
             input_args = attr_map[module + item].input_args
-            args = {item: filters[item] for item in (input_args.split(',') if input_args else [])}
+            args = {item: filters[item] if item in filters else data[item] for item in (input_args.split(',') if input_args else [])}
             args['data'] = data
             getattr(dao, 'add_' + item)(**args)
     return result

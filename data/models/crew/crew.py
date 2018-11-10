@@ -15,7 +15,7 @@ class Crew(db.Model):
     crew_name = db.Column(db.String(128), default='', nullable=False)  # 员工姓名
     phone = db.Column(db.Integer, default=0)  # 员工手机号
     id_card_num = db.Column(db.String(128), default='', nullable=False)  # 身份证号
-    supplier_name = db.Column(db.String(128), default='', nullable=False)  # 供应商
+    supplier_id = db.Column(db.Integer, default=0)  # 供应商
     source = db.Column(db.SmallInteger, default=0) #是否删除：0-网招；1-供应商导入 2-员工推荐 3-其他
 
     work_status = db.Column(db.SmallInteger, default=0) #工作状态 0-空闲 1-已入职 -1-黑名单

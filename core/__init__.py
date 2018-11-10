@@ -96,13 +96,13 @@ redis = RedisEntity(init_redis_servers(app))
 
 
 from inspect import getmembers, isclass
-import plugins
+import plugins.wage as wage_plugins
 
-plugin_pool = {}
-members = getmembers(plugins)
+wage_plugin_pool = {}
+members = getmembers(wage_plugins)
 for member in members:
     if isclass(member[1]):
-        plugin_pool[member[0]] = member[1]
+        wage_plugin_pool[member[0]] = member[1]
 
 
 log.info("project init done")

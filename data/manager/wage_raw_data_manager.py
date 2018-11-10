@@ -9,7 +9,6 @@ class WageRawDataManager(DBManager):
         super(DBManager, self).__init__()
         self.model = WageRawData
         self.params = self.get_editable_fields()
-        self.parent = 'wage'
 
     def create_override_if_exist(self, record):
         history_record = self.query_first({'bill_id': record['bill_id'], 'position': record['position'], 'is_del': 0})
@@ -17,3 +16,4 @@ class WageRawDataManager(DBManager):
             self.update(history_record, **record)
         else:
             self.create(**record)
+

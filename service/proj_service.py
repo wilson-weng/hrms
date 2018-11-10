@@ -1,4 +1,6 @@
 # -*- encoding: utf8 -*-
+import time
+
 from controller import get_request_org_id, get_request_proj_id
 from data.manager import PicMgr
 from data.manager.proj import ProjMgr, ProjOpLogMgr, ProjOfferMgr, ProjRecruitPostMgr
@@ -97,6 +99,7 @@ def update_post(post_id, form):
     post = ProjRecruitPostMgr.get(post_id)
     if post is None:
         return dict(status='error', msg='招聘贴不存在')
+    form['modify_time'] = time.time()
     ProjRecruitPostMgr.update(post, **form)
     # 新增操作记录
     __add_proj_op_log(web_util.get_operator_id(), post.id, proj_constant.PROJ_OP_TYPE_UPDATE, "更改招聘贴信息", 0, 0)

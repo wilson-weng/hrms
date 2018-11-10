@@ -2,22 +2,23 @@
 import json
 from inspect import getmembers
 
-from core import plugin_pool
+from core import wage_plugin_pool
 from commons.exception import ValidationError
 from plugins.plugin import Props
 from data.models.framework.plugin import Plugin
 
 
-def execute_plugin(org_id, proj_id, method, form, data):
+def execute_plugin(bus_type, bus_id, method, form, data):
     """
     执行给定商品包含的所有plugin逻辑
-    :param proj_id: 项目编号
+    :param bus_type: 应用类型
+    :param bus_id: 应用id
     :param method: plugin执行节点，如on_order_create, on_order_paid
     :param form: 输入表单
     :param data: 输入数据
     :return: 所有plugin逻辑执行完之后返回的数据
     """
-    configs = Plugin.query.filter_by(org_id=org_id, proj_id=proj_id, is_del=0).all()
+    configs = Plugin.query.filter_by(bus_type=bus_type, bus_id=bus_id, is_del=0).all()
     plugin_configs = [{'name': item.plugin_id, 'props': item.props} for item in configs]
     try:
         data = execute_handle(plugin_configs, method, form, data)
@@ -40,7 +41,7 @@ def execute_handle(plugins, method, form, data):
     data['trace'] = []
 
     # 从全局的插件池中获取产品对应的插件
-    plugin_list = [{'object': plugin_pool[item['name']], 'props': item['props'], 'id': item['name']} for item in plugins]
+    plugin_list = [{'object': wage_plugin_pool[item['name']], 'props': item['props'], 'id': item['name']} for item in plugins]
 
     # 根据插件的priority排序
     sorted_plugin_list = sorted(plugin_list, key=lambda p : p['object'].__priority__, reverse=True)

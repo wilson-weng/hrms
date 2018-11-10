@@ -3,3 +3,4 @@ import fine
 import wage
 import crew
 import wxApply
+import supplier

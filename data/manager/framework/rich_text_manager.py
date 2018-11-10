@@ -12,8 +12,8 @@ class RichTextManager(DBManager):
 
     def get_last_sequence_by_type(self, bus_type, bus_id, text_type):
         filter_conditions = {'bus_type': bus_type, 'bus_id': bus_id, 'text_type': text_type, 'is_del': 0}
-        last_pic = self.query_first(filter_conditions=filter_conditions, order_list=[self.model.sequence.desc()])
-        return last_pic.sequence if last_pic else 1
+        last_one = self.query_first(filter_conditions=filter_conditions, order_list=[self.model.sequence.desc()])
+        return last_one.sequence if last_one else 1
 
     def get_richtext_by_type(self, bus_type, bus_id, text_type):
         filter_conditions = {'bus_type': bus_type, 'bus_id': bus_id, 'text_type': text_type, 'is_del': 0}
